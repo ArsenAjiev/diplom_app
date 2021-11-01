@@ -10,6 +10,6 @@ __pycache__/
 .venv/
 venv/
 
-# Static and media files
-static/
-media/
+## Static and media files
+#static/
+#media/
