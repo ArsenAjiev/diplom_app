@@ -5,17 +5,18 @@
 
 {% block content %}
 
-<h2> Вход</h2>
+    <h2 align="center"> Вход</h2>
+    <div class="container">
+        {% if user.is_authenticated %}
+            <p> Вы уже выполнили вход </p>
+        {% else %}
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form layout='horizontal' %}
+                <input type="hidden" name="next" value="{{ next }}">
+                {% buttons submit='войти' %} {% endbuttons %}
+            </form>
 
-{% if user.is_authenticated %}
-    <p> Вы уже выполнили вход </p>
-{% else %}
-    <form method="POST">
-        {% csrf_token %}
-        {% bootstrap_form form layout='horizontal' %}
-        <input type="hidden" name="next" value="{{ next }}">
-        {% buttons submit='войти' %} {% endbuttons %}
-    </form>
-{% endif %}
-
+        {% endif %}
+    </div>
 {% endblock %}
