@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+
+{% block title %}
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Мои записи </h1>
+
+Здесь находятся мои сообщения
+
+    <div class="alert alert-primary" role="alert">
+        Добро пожаловать :{{ user.get_username }}
+    </div>
+
+
+
+{% endblock %}
