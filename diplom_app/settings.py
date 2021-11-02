@@ -80,11 +80,14 @@ WSGI_APPLICATION = 'diplom_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dirlchar02nk5',
+        'USER': 'nobvebinpanmby',
+        'PASSWORD': 'e73fd429981d390aa9cfcd2e88559244a3a61918a4a0a7de934dfdad5dd579f4',
+        'HOST': 'ec2-44-198-196-169.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
