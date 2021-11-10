@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% block title %}
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+{% block content %}
+
+<h1> Новости кино https://movieweb.com/ </h1>
+
+    <br>
+    {% for movie in news %}
+        <h6>Фильм {{ movie.title }}</h6>
+        <h6> юзер   <img src="{{ movie.image }}" height="150">  </h6>
+        <h6> коментарий  {{ movie.pubDate }}</h6>
+        <a class="btn btn-primary" href="{{ movie.link }}" role="button">читать новость</a>
+        <br>
+
+
+    {% endfor %}
+
+{% endblock %}

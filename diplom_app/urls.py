@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from movie.views import index, register, profile
+from news.views import news_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='home'),
     path('accounts/register/', register, name='register'),
-    path('accounts/profile/', profile, name='profile')
+    path('accounts/profile/', profile, name='profile'),
+    path('news/', news_view, name='news'),
 ]
 
 urlpatterns += [
