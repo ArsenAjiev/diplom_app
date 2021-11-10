@@ -1,5 +1,6 @@
 {% load bootstrap4 %}
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -76,8 +77,75 @@
             <section class="col border py-2">
                 {% bootstrap_messages %}
                 {% block content %}
+
+                    {% if user.is_superuser  %}
+                         sueruser
+                    {% else %}
+                        not superuser
+                    {% endif %}
+
                     <p>Главная страница сайта </p>
-                    <img src="/static/img/barcelona.jpeg" height="400">
+      <div class="col-md-9">
+                        <div class=" container border border-primary ">
+
+                            {% if user.is_superuser %}
+
+                                <form method="POST">
+                                    <h2> Enter title and release year </h2>
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <button type="submit" class="btn btn-primary"> Add movie</button>
+
+                                    {% if message %}
+                                        <div class="{{ message_class }} col-3"> {{ message }} </div>
+                                    {% endif %}
+                                </form>
+                            {% endif %}
+                        </div>
+
+         {% for movie in movies %}
+<div class="container border border-primary">
+  <div class="alert alert-primary" role="alert"> </div>
+    <div class="row">
+           <div class="col-md-3 border border-primary">
+            <h5>TITLE: </h5><span class="title"> {{ movie.title }}</span>
+           </div>
+           <div class="col-md-3 border border-primary">
+           <h5>YEAR: </h5><span class="title">{{ movie.year }}</span>
+           </div>
+           <div class="col-md-3 border border-primary">
+           <h5>RELEASED: </h5><span class="title">{{ movie.released }}</span>
+           </div>
+           <div class="col-md-3 border border-primary">
+           <h5>imbd: </h5><span class="title">{{ movie.imdb_id }}</span>
+           </div>
+    </div>
+    <div class="row">
+           <div class="col-md-4 border border-primary">
+        <img src=" /static/img{{ movie.image.url }}" alt="" height="350" border="12">
+           </div>
+           <div class="col-md-8 border border-primary">
+            <h5>PLOT: </h5> {{ movie.plot }}
+           </div>
+    </div>
+{#        <a href="{% url 'delete_movie' movie.pk %}">#}
+{#        <button class="delete btn btn-danger"> DELETE </button>#}
+{#        </a>#}
+            <div class="alert alert-primary" role="alert">
+            <h5>CREATED_AT: </h5><span class="title">{{ movie.created_at }}</span>
+            </div>
+
+
+
+</div>
+
+{% endfor %}
+    </div>
+
+
+
+
+{#                    <img src="/static/img/barcelona.jpeg" height="400">#}
 
                 {% endblock %}
             </section>
