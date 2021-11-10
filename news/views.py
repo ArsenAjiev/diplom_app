@@ -7,7 +7,7 @@ news_all = News.objects.all()
 
 def news_view(request):
     with urllib.request.urlopen(
-            "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmovieweb.com%2Frss%2Fmovie-reviews%2F") as url:
+            "https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Ffeeds.feedburner.com%2Fmovieweb_news") as url:
         data = json.loads(url.read().decode())
 
     lenn = len(data['items'])

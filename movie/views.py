@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
@@ -6,7 +7,7 @@ from datetime import datetime
 import requests
 
 from omdb import OMDBClient
-from movie.models import Movie
+from movie.models import Movie, CartMovie, Cart
 from movie.forms import UserRegisterForm, MovieForm
 
 
@@ -76,7 +77,8 @@ def index(request):
 
 
 def profile(request):
-    return render(request, './main/profile.html')
+    my_movie = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk)
+    return render(request, './main/profile.html', {'my_movie': my_movie})
 
 
 
@@ -93,5 +95,19 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register_user.html', {"form": form})
+
+
+def add_movie(request, movie_pk):
+
+    new_pk = movie_pk
+    existing_movie_pk_count = CartMovie.objects.filter(cart_ref_id=request.user.pk, movie_ref_id=new_pk).count()
+    if existing_movie_pk_count == 0:
+
+        CartMovie.objects.create(cart_ref_id=request.user.pk, movie_ref_id=movie_pk)
+        messages.success(request, "фильм успешно добавлен в ваш профиль")
+        return redirect('home')
+    else:
+        messages.error(request, 'Фильм уже в вашем профиле.')
+        return redirect('home')
 
 

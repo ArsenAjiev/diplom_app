@@ -127,6 +127,11 @@
            <div class="col-md-8 border border-primary">
             <h5>PLOT: </h5> {{ movie.plot }}
            </div>
+            <div class="col-md-8 border border-primary">
+                <a href="{% url 'add_movie' movie.pk %}">
+        <button class="btn btn-primary"> ADD MOVIE TO PROFILE</button>
+        </a>
+            </div>
     </div>
 {#        <a href="{% url 'delete_movie' movie.pk %}">#}
 {#        <button class="delete btn btn-danger"> DELETE </button>#}

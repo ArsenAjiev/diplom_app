@@ -16,7 +16,7 @@ class Movie(models.Model):
     imdb_votes = models.CharField(max_length=255, verbose_name='количество голосов')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='опубликовано')
 
-    def str(self):
+    def __str__(self):
         return self.title
 
 
