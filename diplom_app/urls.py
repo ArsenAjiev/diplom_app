@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from movie.views import index, register, profile, add_movie
+from movie.views import index, register, profile, add_movie, delete_movie
 from news.views import news_view
 
 urlpatterns = [
@@ -24,7 +24,8 @@ urlpatterns = [
     path('accounts/register/', register, name='register'),
     path('accounts/profile/', profile, name='profile'),
     path('news/', news_view, name='news'),
-    path('add/<movie_pk>/', add_movie, name='add_movie')
+    path('add/<movie_pk>/', add_movie, name='add_movie'),
+    path('delete/<movie_pk>/', delete_movie, name='delete_movie')
 ]
 
 urlpatterns += [

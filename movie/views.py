@@ -98,6 +98,7 @@ def register(request):
             user = form.save()
             login(request, user)
             messages.success(request, "Вы успешно зарегистрировались")
+            Cart.objects.create(customer_id=request.user.pk)
             return redirect('home')
         else:
             messages.error(request, "Ошибка регистрации")
@@ -107,16 +108,25 @@ def register(request):
 
 
 def add_movie(request, movie_pk):
-
+    #  cоздал экземпляр 'active_user' класса Cart с фктивным пользователем
+    #  обратился к id экземпляра  Cart при добавлении в БД
+    active_user = Cart.objects.get(customer_id=request.user.pk)
     new_pk = movie_pk
-    existing_movie_pk_count = CartMovie.objects.filter(cart_ref_id=request.user.pk, movie_ref_id=new_pk).count()
+    existing_movie_pk_count = CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=new_pk).count()
     if existing_movie_pk_count == 0:
-
-        CartMovie.objects.create(cart_ref_id=request.user.pk, movie_ref_id=movie_pk)
+        print(movie_pk)
+        print(request.user.pk)
+        CartMovie.objects.create(cart_ref_id=active_user.pk, movie_ref_id=movie_pk)
         messages.success(request, "фильм успешно добавлен в ваш профиль")
         return redirect('home')
     else:
         messages.error(request, 'Фильм уже в вашем профиле.')
-        return redirect('home')
+    return redirect('home')
+
+
+def delete_movie(request, movie_pk):
+    active_user = Cart.objects.get(customer_id=request.user.pk)
+    CartMovie.objects.get(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).delete()
+    return redirect('profile')
 
 

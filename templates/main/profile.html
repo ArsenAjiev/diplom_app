@@ -17,12 +17,31 @@
     </div>
 
     {% for movie in my_movie %}
+        <div class="container border border-primary">
+        <div class="row ">
 
-    {{ movie.id }}
-    {{ movie.cart_ref }}
-    {{ movie.movie_ref}}
-    <img src=" /static/img{{ movie.movie_ref.image.url}}" alt="" height="350" border="12">
-   {{ movie.movie_ref.image.url}}
+                    <div class="col border border-primary">
+                <img src=" /static/img{{ movie.movie_ref.image.url }}" alt="" height="250" border="12">
+
+            </div>
+            <div class="col">
+                {{ movie.id }}
+            </div>
+
+            <div class="col">
+                {{ movie.cart_ref }}
+            </div>
+
+            <div class="col">
+                {{ movie.movie_ref }}
+            </div>
+
+
+        </div>
+        <a href="{% url 'delete_movie' movie.movie_ref_id %}"> <button class="btn btn-info"> DELETE MOVIE FROM PROFILE</button></a>
+</div>
+
+
 
     {% endfor %}
 
