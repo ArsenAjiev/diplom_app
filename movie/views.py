@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 import requests
+from django.core.paginator import Paginator
+
 
 from omdb import OMDBClient
 from movie.models import Movie, CartMovie, Cart
@@ -71,8 +73,15 @@ def index(request):
 
     movies = Movie.objects.order_by("-released")
 
+    paginator = Paginator(movies, 5)
+    page_number = request.GET.get("page")
+    movies = paginator.get_page(page_number)
+
+
     return render(request, "index.html",
                   {"movies": movies, "form": form, "message": message, 'message_class': message_class})
+
+
 
 
 

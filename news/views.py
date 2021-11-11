@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from news.models import News
 import urllib.request, json
+from django.core.paginator import Paginator
+
 
 news_all = News.objects.all()
 
@@ -21,4 +23,11 @@ def news_view(request):
                 link=data['items'][i]['link'],
                 image=data['items'][i]['enclosure']['link'])
     news = News.objects.order_by("-pubDate")
+
+    paginator = Paginator(news, 4)
+    page_number = request.GET.get("page")
+    news = paginator.get_page(page_number)
+
     return render(request, "news/news.html", {"news": news})
+
+
