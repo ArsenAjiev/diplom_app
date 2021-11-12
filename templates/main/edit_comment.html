@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% block title %}
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+
+{% block content %}
+
+    <h1>Мои коментарии </h1>
+        {% if user.is_superuser %}
+            <div class="alert alert-primary" role="alert">
+                Добро пожаловать суперюзер :{{ user.get_username }}
+            </div>
+        {% endif %}
+
+    Здесь находятся коментарии пользователя {{ user.get_username }}
+        <br>
+        {% for comment in Comments %}
+           <div class="container border border-primary">
+                <div class="row ">
+                    <div class="col border border-primary">
+                        <img src=" /static/img{{ comment.movie_ref.image.url }}" alt="" height="250" border="12">
+                    </div>
+                    <div class="col">
+                     <p>Фильм </p> <h4>{{ comment.movie_ref }}</h4>
+                    </div>
+                    <div class="col">
+                    <p>коментарий </p>   <h4>{{ comment.comment }}</h4>
+                    </div>
+                    <div class="col">
+                     <p> добавлен </p>  <h4> {{ comment.updated_at }}</h4>
+                    </div>
+                </div>
+           </div>
+           <br>
+       {% endfor %}
+
+    <form method="POST" class="note-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-primary">Save</button>
+    </form>
+
+
+ {% endblock %}

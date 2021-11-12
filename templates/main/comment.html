@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+
+{% block title %}
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+
+{% block content %}
+
+    <h1>Комментарии </h1>
+        <br>
+        {% for comment in All_comment %}
+            {% if comment.comment %}
+
+           <div class="container border border-primary">
+                <div class="row ">
+                    <div class="col border border-primary">
+                        <img src=" /static/img{{ comment.movie_ref.image.url }}" alt="" height="250" border="12">
+                    </div>
+                    <div class="col">
+                     <p>Фильм </p> <h4>{{ comment.movie_ref }}</h4>
+                    </div>
+                    <div class="col">
+                    <p>коментарий </p>   <h4>{{ comment.comment }}</h4>
+                    </div>
+                    <div class="col">
+                     <p> добавлен </p>  <h4> {{ comment.updated_at }}</h4>
+                    </div>
+                </div>
+           </div>
+
+       {% endif %}
+            <br>
+       {% endfor %}
+
+                    <div class="pagination">
+        <span class="step-links">
+          {% if All_comment.has_previous %}
+            <a href="?page=1" class="btn btn-primary">&laquo; first</a>
+            <a href="?page={{ All_comment.previous_page_number }}" class="btn btn-primary">previous</a>
+          {% endif %}
+            <span class="current">
+                Page {{ All_comment.number }} of {{ All_comment.paginator.num_pages }}.
+            </span>
+          {% if All_comment.has_next %}
+            <a href="?page={{ All_comment.next_page_number }} " class="btn btn-primary">next</a>
+            <a href="?page={{ All_comment.paginator.num_pages }}" class="btn btn-primary">last &raquo;</a>
+          {% endif %}
+          </span>
+      </div>
+
+ {% endblock %}

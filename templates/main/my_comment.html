@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+
+{% block title %}
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+
+{% block content %}
+
+    <h1>Мои коментарии </h1>
+        {% if user.is_superuser %}
+            <div class="alert alert-primary" role="alert">
+                Добро пожаловать суперюзер :{{ user.get_username }}
+            </div>
+        {% endif %}
+
+    Здесь находятся коментарии пользователя {{ user.get_username }}
+        <br>
+        {% for comment in Comments %}
+            {% if comment.comment %}
+
+           <div class="container border border-primary">
+                <div class="row ">
+                    <div class="col border border-primary">
+                        <img src=" /static/img{{ comment.movie_ref.image.url }}" alt="" height="250" border="12">
+                    </div>
+                    <div class="col">
+                     <p>Фильм </p> <h4>{{ comment.movie_ref }}</h4>
+                    </div>
+                    <div class="col">
+                    <p>коментарий </p>   <h4>{{ comment.comment }}</h4>
+                    </div>
+                    <div class="col">
+                     <p> добавлен </p>  <h4> {{ comment.updated_at }}</h4>
+                    </div>
+                </div>
+           </div>
+
+{#     <a class="btn btn-primary" href="#" role="button">Delete comment</a>      #}
+     <a class="btn btn-primary" href="{% url 'edit_comment' comment.movie_ref_id %}" role="button">Edit comment</a>
+       {% endif %}
+            <br>
+       {% endfor %}
+
+ <div class="pagination">
+        <span class="step-links">
+          {% if Comments.has_previous %}
+            <a href="?page=1" class="btn btn-primary">&laquo; first</a>
+            <a href="?page={{ Comments.previous_page_number }}" class="btn btn-primary">previous</a>
+          {% endif %}
+            <span class="current">
+                Page {{ Comments.number }} of {{ Comments.paginator.num_pages }}.
+            </span>
+          {% if Comments.has_next %}
+            <a href="?page={{ Comments.next_page_number }} " class="btn btn-primary">next</a>
+            <a href="?page={{ Comments.paginator.num_pages }}" class="btn btn-primary">last &raquo;</a>
+          {% endif %}
+          </span>
+      </div>
+
+ {% endblock %}

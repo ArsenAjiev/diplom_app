@@ -35,10 +35,9 @@
             <div class="col">
                 {{ movie.movie_ref }}
             </div>
-
-
         </div>
-        <a href="{% url 'delete_movie' movie.movie_ref_id %}"> <button class="btn btn-info"> DELETE MOVIE FROM PROFILE</button></a>
+        <a href="{% url 'delete_user_movie' movie.movie_ref_id %}"> <button class="btn btn-info"> DELETE MOVIE FROM PROFILE</button></a>
+             <a class="btn btn-primary" href="{% url 'edit_comment' movie.movie_ref_id %}" role="button"> Add comment</a>
 </div>
 
 

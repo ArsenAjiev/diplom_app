@@ -19,3 +19,7 @@ class MovieForm(ModelForm):
     class Meta:
         model = Movie
         fields = ['title', 'year']
+
+
+class AddCommentForm(forms.Form):
+    comment = forms.CharField(max_length=255)

@@ -1,17 +1,15 @@
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 import requests
 from django.core.paginator import Paginator
 
-
 from omdb import OMDBClient
 from movie.models import Movie, CartMovie, Cart
 from movie.forms import UserRegisterForm, MovieForm
-
+from movie.forms import AddCommentForm
 
 IMDB_API_KEY = '17cdc959'
 client = OMDBClient(apikey=IMDB_API_KEY)
@@ -73,22 +71,22 @@ def index(request):
 
     movies = Movie.objects.order_by("-released")
 
-    paginator = Paginator(movies, 5)
+    paginator = Paginator(movies, 10)
     page_number = request.GET.get("page")
     movies = paginator.get_page(page_number)
-
 
     return render(request, "index.html",
                   {"movies": movies, "form": form, "message": message, 'message_class': message_class})
 
 
-
+def delete_movie(request, movie_pk):
+    Movie.objects.get(pk=movie_pk).delete()
+    return redirect('home')
 
 
 def profile(request):
     my_movie = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk)
     return render(request, './main/profile.html', {'my_movie': my_movie})
-
 
 
 def register(request):
@@ -124,9 +122,40 @@ def add_movie(request, movie_pk):
     return redirect('home')
 
 
-def delete_movie(request, movie_pk):
+def delete_user_movie(request, movie_pk):
     active_user = Cart.objects.get(customer_id=request.user.pk)
     CartMovie.objects.get(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).delete()
     return redirect('profile')
 
+
+def my_comment(request):
+    Comments = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk).order_by("-updated_at")
+    paginator = Paginator(Comments, 4)
+    page_number = request.GET.get("page")
+    Comments = paginator.get_page(page_number)
+    return render(request, './main/my_comment.html', {'Comments': Comments})
+
+
+def comment(request):
+    All_comment = CartMovie.objects.all().order_by("-updated_at")
+    paginator = Paginator(All_comment, 3)
+    page_number = request.GET.get("page")
+    All_comment = paginator.get_page(page_number)
+    return render(request, './main/comment.html', {'All_comment': All_comment})
+
+
+def edit_comment(request, movie_pk):
+     #  cоздал экземпляр 'active_user' класса Cart с фктивным пользователем
+     #  обратился к id экземпляра  Cart при добавлении в БД
+    active_user = Cart.objects.get(customer_id=request.user.pk)
+    if request.method == 'POST':
+        form = AddCommentForm(request.POST)
+        if form.is_valid():
+            CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(comment=form.cleaned_data["comment"])
+            return redirect('comment')
+            pass
+    else:
+        form = AddCommentForm()
+    Comments = CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk)
+    return render(request, 'main/edit_comment.html', {'Comments': Comments, 'form': form})
 
