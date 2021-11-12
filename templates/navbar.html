@@ -1,0 +1,75 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Главная страница</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'news' %}">Новости</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'comment' %}">Коментарии</a>
+                </li>
+                <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                       href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">Категории фильмов</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li>
+
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </ul>
+
+        </div>
+
+
+        <div >
+
+    <p class="row">
+
+
+    <ul class="col nav content-end">
+        <li class="nav-item"><a class="nav-link"
+                                href="{% url 'register' %}">Регистрация</a></li>
+        {% if user.is_authenticated %}
+            <div class="alert alert-secondary" role="alert">
+                Добро пожаловать :{{ user.get_username }}
+            </div>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#" role="button" aria-haspopup="true"
+                   aria-expanded="false">Профиль</a>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'profile' %}">Моя страница</a>
+{#                    <a class="dropdown-item" href="{% url 'my_comment' %}">Мои коментарии</a>#}
+                    <a class="dropdown-item" href="{% url "logout" %}?next={% url 'home' %}">Выйти</a>
+                    <div class="dropdown-divider"></div>
+                    {#                        <a class="dropdown-item" href="{% url "main:profile_delete" %}">Удалить</a>#}
+                </div>
+            </li>
+        {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url "login" %}?next={% url 'profile' %}">Вход</a></li>
+        {% endif %}
+    </ul>
+</div>
+    </div>
+</nav>

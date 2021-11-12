@@ -60,6 +60,7 @@ def index(request):
                 pass
             else:
                 err_msg = 'Movie already exist in the database!'
+                form = MovieForm()
 
         if err_msg:
             message = err_msg
@@ -70,13 +71,14 @@ def index(request):
             message_class = 'alert alert-success'
 
     movies = Movie.objects.order_by("-released")
+    num_movies = Movie.objects.all().count()
 
-    paginator = Paginator(movies, 10)
+    paginator = Paginator(movies, 5)
     page_number = request.GET.get("page")
     movies = paginator.get_page(page_number)
 
     return render(request, "index.html",
-                  {"movies": movies, "form": form, "message": message, 'message_class': message_class})
+                  {"movies": movies, "form": form, "message": message, 'message_class': message_class, "num_movies": num_movies})
 
 
 def delete_movie(request, movie_pk):
@@ -86,6 +88,9 @@ def delete_movie(request, movie_pk):
 
 def profile(request):
     my_movie = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk)
+    paginator = Paginator(my_movie, 10)
+    page_number = request.GET.get("page")
+    my_movie = paginator.get_page(page_number)
     return render(request, './main/profile.html', {'my_movie': my_movie})
 
 
@@ -128,20 +133,20 @@ def delete_user_movie(request, movie_pk):
     return redirect('profile')
 
 
-def my_comment(request):
-    Comments = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk).order_by("-updated_at")
-    paginator = Paginator(Comments, 4)
-    page_number = request.GET.get("page")
-    Comments = paginator.get_page(page_number)
-    return render(request, './main/my_comment.html', {'Comments': Comments})
+# def my_comment(request):
+#     Comments = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk).order_by("-updated_at")
+#     paginator = Paginator(Comments, 4)
+#     page_number = request.GET.get("page")
+#     Comments = paginator.get_page(page_number)
+#     return render(request, './main/my_comment.html', {'Comments': Comments})
 
 
 def comment(request):
     All_comment = CartMovie.objects.all().order_by("-updated_at")
-    paginator = Paginator(All_comment, 3)
+    paginator = Paginator(All_comment, 10)
     page_number = request.GET.get("page")
     All_comment = paginator.get_page(page_number)
-    return render(request, './main/comment.html', {'All_comment': All_comment})
+    return render(request, 'main/comment.html', {'All_comment': All_comment})
 
 
 def edit_comment(request, movie_pk):
@@ -158,4 +163,9 @@ def edit_comment(request, movie_pk):
         form = AddCommentForm()
     Comments = CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk)
     return render(request, 'main/edit_comment.html', {'Comments': Comments, 'form': form})
+
+
+def movie_detail(request, movie_pk):
+    movie = Movie.objects.get(id=movie_pk)
+    return render(request, 'main/movie_detail.html', {'movie': movie})
 

@@ -24,7 +24,7 @@ def news_view(request):
                 image=data['items'][i]['enclosure']['link'])
     news = News.objects.order_by("-pubDate")
 
-    paginator = Paginator(news, 4)
+    paginator = Paginator(news, 10)
     page_number = request.GET.get("page")
     news = paginator.get_page(page_number)
 

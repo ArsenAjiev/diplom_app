@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+    {% load static %}
+{% block title %}
+
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+{% block content %}
+
+     <div class="card bg-light text-dark text-center">
+        <div class="card-body"> <h1>Информация о фильме</h1></div>
+  </div>
+
+
+
+ <div class="container" style="margin-top:20px">
+              <div class="row">
+                   <div class="col-sm-12">
+                             <div class="card">
+                              <div class="row">
+                                  <div class="col-md-4">
+                                    <img src=" /static/img{{ movie.image.url }}" alt="" height="350" border="12">
+                                    </div>
+
+                                  <div class="col-md-8">
+                                            <h4 class="card-title"> Название:<span class="title"> {{ movie.title }}</span>  </h4>
+                                            <h5 class="card-title"> Год выпуска:<span class="title"> {{ movie.year }}</span>  </h5>
+                                            <h5 class="card-title"> Жанр:<span class="title"> {{ movie.genre }}</span>  </h5>
+                                            <h5 class="card-title"> Сюжет:<span class="title"> {{ movie.plot }}</span>  </h5>
+                                            <h5 class="card-title"> Время:<span class="title"> {{ movie.runtime }}</span>  </h5>
+                                            <h5 class="card-title"> Страна:<span class="title"> {{ movie.country }}</span>  </h5>
+                                            <h5 class="card-title"> Рейтинг:<span class="title"> {{ movie.imdb_rating }}</span>  </h5>
+                                            <h5 class="card-title"> Количество голосов:<span class="title"> {{ movie.imdb_votes }}</span>  </h5>
+                                            <h5 class="card-title"> Imdb_id:<span class="title"> {{ movie.imdb_id }}</span>  </h5>
+
+
+                                            <a href="{% url 'home' %}">
+                                            <button class="btn btn-primary">Вернуться на главную страница</button></a>
+
+                                  </div>
+                              </div>
+                        </div>
+                    </div>
+      </div>
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 
 class Movie(models.Model):
@@ -18,6 +19,12 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+
+    def get_absolute_url(self):
+        # Возвращает url-адрес для доступа к определенному экземпляру книги.
+        return reverse('movie_detail', kwargs={'movie_pk': self.pk})
+
 
 
 class Cart(models.Model):

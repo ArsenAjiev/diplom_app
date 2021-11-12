@@ -7,18 +7,34 @@
 
 {% block content %}
 
-<h1> Новости кино https://movieweb.com/ </h1>
+    <div class="card bg-light text-dark text-center">
+        <div class="card-body"> <h1>Новости кино movieweb.com</h1></div>
+  </div>
 
-    <br>
-    {% for movie in news %}
-        <h6>Фильм {{ movie.title }}</h6>
-        <h6> юзер   <img src="{{ movie.image }}" height="150">  </h6>
-        <h6> коментарий  {{ movie.pubDate }}</h6>
-        <a class="btn btn-info" href="{{ movie.link }}" role="button">читать новость</a>
-        <br>
+     {% for item in news %}
+        <div class="container" style="margin-top:20px">
+              <div class="row">
+                   <div class="col-sm-12">
+                             <div class="card">
+                              <div class="row">
+                                  <div class="col-md-4">
+                                      <img src="{{ item.image }}" height="150">
+                                    </div>
+
+                                  <div class="col-md-8">
+                                            <h4 class="card-title"> Заголовок:<span class="title"> {{ item.title }}</span>  </h4>
+                                            <h5 class="card-title"> Дата публикации:<span class="title"> {{ item.pubDate }}</span>  </h5>
+                                            <a class="btn btn-secondary" href="{{ item.link }}" role="button">читать новость на сайте movieweb.com</a>
+
+                                  </div>
+                              </div>
+                        </div>
+                    </div>
+      </div>
+</div>
+                     {% endfor %}
 
 
-    {% endfor %}
 
     <div class="pagination">
         <span class="step-links">
