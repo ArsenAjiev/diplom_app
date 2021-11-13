@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 import requests
+import datetime
 from django.core.paginator import Paginator
 
 from omdb import OMDBClient
@@ -156,7 +157,7 @@ def edit_comment(request, movie_pk):
     if request.method == 'POST':
         form = AddCommentForm(request.POST)
         if form.is_valid():
-            CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(comment=form.cleaned_data["comment"])
+            CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(comment=form.cleaned_data["comment"], updated_at=datetime.datetime.today())
             return redirect('comment')
             pass
     else:
@@ -169,3 +170,8 @@ def movie_detail(request, movie_pk):
     movie = Movie.objects.get(id=movie_pk)
     return render(request, 'main/movie_detail.html', {'movie': movie})
 
+
+def choise_genre(request, name):
+    movies = Movie.objects.filter(genre__contains=name)
+    num_movies = movies.count()
+    return render(request, 'main/genre_movie.html', {'movies': movies, 'name': name, 'num_movies': num_movies})

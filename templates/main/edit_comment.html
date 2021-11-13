@@ -8,40 +8,49 @@
 
 {% block content %}
 
-    <h1>Мои коментарии </h1>
-        {% if user.is_superuser %}
-            <div class="alert alert-primary" role="alert">
-                Добро пожаловать суперюзер :{{ user.get_username }}
-            </div>
-        {% endif %}
+ <div class="card bg-light text-dark text-center">
+           <div class="card-body"> <h1> Страница  пользователя {{ user.get_username }}</h1></div>
+        </div>
 
-    Здесь находятся коментарии пользователя {{ user.get_username }}
-        <br>
-        {% for comment in Comments %}
-           <div class="container border border-primary">
-                <div class="row ">
-                    <div class="col border border-primary">
-                        <img src=" /static/img{{ comment.movie_ref.image.url }}" alt="" height="250" border="12">
-                    </div>
-                    <div class="col">
-                     <p>Фильм </p> <h4>{{ comment.movie_ref }}</h4>
-                    </div>
-                    <div class="col">
-                    <p>коментарий </p>   <h4>{{ comment.comment }}</h4>
-                    </div>
-                    <div class="col">
-                     <p> добавлен </p>  <h4> {{ comment.updated_at }}</h4>
-                    </div>
-                </div>
-           </div>
-           <br>
-       {% endfor %}
+ {% for comment in Comments %}
+        <div class="container" style="margin-top:20px">
+              <div class="row">
+                   <div class="col-sm-12">
+                             <div class="card">
+                              <div class="row">
+                                  <div class="col-md-4">
+                                    <img src=" /static/img{{ comment.movie_ref.image.url }}" alt="" height="250" border="12">
+                                    </div>
 
-    <form method="POST" class="note-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-primary">Save</button>
-    </form>
+                                  <div class="col-md-8">
+                                            <h6 class="card-title"> Title:<span class="title"> {{ comment.movie_ref }}</span>  </h6>
+                                            <h6 class="card-title"> Жанр:<span class="title"> {{ comment.movie_ref.genre }}</span>  </h6>
+                                            <h6 class="card-title"> Дата выхода на экран:<span class="title"> {{ comment.movie_ref.released }}</span>  </h6>
+
+                                           <h2 class="card-title"> Мой коментарий  фильма :</h2>  <p><span class="title"> {{ comment.comment }}</span> </p>
+                                           <h6 class="card-title"> Дата коментария:<span class="title"> {{ comment.updated_at }}</span>  </h6>
+
+
+                                    </div>
+                              </div>
+                        </div>
+                    </div>
+      </div>
+        {% load crispy_forms_tags %}
+
+<h2> Добавить отзыв </h2>
+<form method="POST" class="note-form">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button type="submit" class="save btn btn-primary">Save</button>
+</form>
+
+</div>
+ {% endfor %}
+
+
+
+
 
 
  {% endblock %}

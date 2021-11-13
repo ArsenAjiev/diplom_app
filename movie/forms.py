@@ -22,4 +22,7 @@ class MovieForm(ModelForm):
 
 
 class AddCommentForm(forms.Form):
-    comment = forms.CharField(max_length=255)
+    comment = forms.CharField(max_length=255, label='Коментарий', widget=forms.Textarea(attrs={
+        "class": "form-control",
+        "rows": 5
+    }))
