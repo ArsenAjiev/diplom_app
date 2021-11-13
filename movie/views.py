@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 import requests
-import datetime
+#import datetime
 from django.core.paginator import Paginator
 
 from omdb import OMDBClient
@@ -74,7 +74,7 @@ def index(request):
     movies = Movie.objects.order_by("-released")
     num_movies = Movie.objects.all().count()
 
-    paginator = Paginator(movies, 5)
+    paginator = Paginator(movies, 10)
     page_number = request.GET.get("page")
     movies = paginator.get_page(page_number)
 
@@ -157,7 +157,7 @@ def edit_comment(request, movie_pk):
     if request.method == 'POST':
         form = AddCommentForm(request.POST)
         if form.is_valid():
-            CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(comment=form.cleaned_data["comment"], updated_at=datetime.datetime.today())
+            CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(comment=form.cleaned_data["comment"], updated_at=datetime.today())
             return redirect('comment')
             pass
     else:
@@ -174,4 +174,21 @@ def movie_detail(request, movie_pk):
 def choise_genre(request, name):
     movies = Movie.objects.filter(genre__contains=name)
     num_movies = movies.count()
+    paginator = Paginator(movies, 10)
+    page_number = request.GET.get("page")
+    movies = paginator.get_page(page_number)
     return render(request, 'main/genre_movie.html', {'movies': movies, 'name': name, 'num_movies': num_movies})
+
+
+def buy_dvd(request, movie_pk):
+    movie = Movie.objects.get(id=movie_pk)
+    return render(request, 'online_shop/buy_dvd.html', {'movie': movie})
+
+def buy_online_watch(request, movie_pk):
+    movie = Movie.objects.get(id=movie_pk)
+    return render(request, 'online_shop/buy_online_watch.html', {'movie': movie})
+
+def buy_ticket(request, movie_pk):
+    movie = Movie.objects.get(id=movie_pk)
+    return render(request, 'online_shop/buy_ticket.html', {'movie': movie})
+

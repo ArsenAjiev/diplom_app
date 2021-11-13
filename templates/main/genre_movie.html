@@ -9,8 +9,7 @@
 {% block content %}
 
         <div class="card bg-light text-dark text-center">
-           <div class="card-body"> <h1> Фильмы категории: {{ name }}  </h1></div>
-           <div class="card-body"> <h1>  количество: {{ num_movies }}  </h1></div>
+           <h1> Фильмы категории: {{ name }} : количество: {{ num_movies }}   </h1>
         </div>
 
 
@@ -45,16 +44,16 @@
 
  <div class="pagination">
         <span class="step-links">
-          {% if my_movie.has_previous %}
+          {% if movies.has_previous %}
             <a href="?page=1" class="btn btn-primary">&laquo; first</a>
-            <a href="?page={{ my_movie.previous_page_number }}" class="btn btn-primary">previous</a>
+            <a href="?page={{ movies.previous_page_number }}" class="btn btn-primary">previous</a>
           {% endif %}
             <span class="current">
-                Page {{ my_movie.number }} of {{ my_movie.paginator.num_pages }}.
+                Page {{ movies.number }} of {{ movies.paginator.num_pages }}.
             </span>
-          {% if my_movie.has_next %}
-            <a href="?page={{ my_movie.next_page_number }} " class="btn btn-primary">next</a>
-            <a href="?page={{ my_movie.paginator.num_pages }}" class="btn btn-primary">last &raquo;</a>
+          {% if movies.has_next %}
+            <a href="?page={{ movies.next_page_number }} " class="btn btn-primary">next</a>
+            <a href="?page={{ movies.paginator.num_pages }}" class="btn btn-primary">last &raquo;</a>
           {% endif %}
           </span>
       </div>

@@ -31,6 +31,21 @@
 
                                   <a href="{% url 'delete_user_movie' movie.movie_ref_id %}"> <button class="btn btn-danger"> DELETE MOVIE FROM PROFILE</button></a>
                                   <a class="btn btn-primary" href="{% url 'edit_comment' movie.movie_ref_id %}" role="button">Add or Edit comment</a>
+
+                                      <div class="alert alert-light" role="alert"></div>
+                                      <a href="{% url 'buy_online_watch' movie.movie_ref_id %}">
+                                          <button type="button" class="btn btn-outline-success">Смотреть онлайн</button>
+                                      </a>
+                                      <a href="{% url 'buy_ticket' movie.movie_ref_id %}">
+                                          <button type="button" class="btn btn-outline-danger">Купить билет в
+                                              кинотеатр
+                                          </button>
+                                      </a>
+                                      <a href="{% url 'buy_dvd' movie.movie_ref_id %}">
+                                          <button type="button" class="btn btn-outline-info">Купить DVD/Blu-ray</button>
+                                      </a>
+
+
                                     </div>
                               </div>
                         </div>

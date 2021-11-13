@@ -10,14 +10,14 @@
     <title>{% block title %}Главная{% endblock %} - Сайт о кино </title>
     {% bootstrap_css %}
     <link rel="stylesheet" type="text/css"
-          href="#">
+          href="/static/main.css">
     {% bootstrap_javascript jquery='slim' %}
 </head>
 <body>
-<div class="jumbotron jumbotron-fluid text-center">
-      <img src="/static/img/nov.jpg" class="rounded">
-        <h1> NEW MOVIE</h1>
- </div>
+
+      <img src="/static/img/nov.jpg" class="rounded img-fluid ">
+        <h1 class="title_movie" align="center"> NEW MOVIE</h1>
+
 
 {% include 'navbar.html' %}
 
@@ -26,7 +26,8 @@
 {% block content %}
 
          <div class="card bg-light text-dark text-center">
-        <div class="card-body"> <h1> В базе данных находится {{ num_movies }} фильмов </h1></div>
+        <div class="card-body"> <h1> Количество фильмов в базе данных: {{ num_movies }}  </h1></div>
+
   </div>
 
 
@@ -35,7 +36,8 @@
                         {% bootstrap_messages %}
                     {% if user.is_superuser %}
                             <form method="POST">
-                                <h2> Enter title and release year </h2>
+                                <h2> Эта форма доступна только для администратора сайта </h2>
+                                <h2> используется для добавления фильмов в базу данных </h2>
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 <button type="submit" class="btn btn-primary"> Add movie</button>
@@ -68,6 +70,15 @@
                                             <button class="btn btn-primary"> ADD MOVIE TO PROFILE</button></a>
                                             <a href="{{ movie.get_absolute_url }}">
                                             <button class="btn btn-primary">Информация о фильме</button></a>
+
+                                  <div class="alert alert-light" role="alert"> </div>
+
+                                  <a href="{% url 'buy_online_watch' movie.pk %}">
+                                  <button type="button" class="btn btn-outline-success">Смотреть онлайн</button></a>
+                                  <a href="{% url 'buy_ticket' movie.pk %}">
+                                  <button type="button" class="btn btn-outline-danger">Купить билет в кинотеатр</button></a>
+                                  <a href="{% url 'buy_dvd' movie.pk %}">
+                                  <button type="button" class="btn btn-outline-info">Купить DVD/Blu-ray</button></a>
                                                {% if user.is_superuser %}
                                                     <a href="{% url 'delete_movie' movie.pk %}">
                                                     <button class="delete btn btn-danger"> DELETE </button> </a>

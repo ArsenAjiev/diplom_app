@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from movie.views import index, register, profile, add_movie, delete_movie, delete_user_movie
-from movie.views import  comment, edit_comment, movie_detail, choise_genre
+from movie.views import  comment, edit_comment, movie_detail, choise_genre, buy_dvd, buy_online_watch, buy_ticket
 from news.views import news_view
 
 urlpatterns = [
@@ -33,6 +33,9 @@ urlpatterns = [
     path('edit_comment/<movie_pk>/', edit_comment, name='edit_comment'),
     path('movie_detail/<movie_pk>/', movie_detail, name='movie_detail'),
     path('movie_choise/<name>/', choise_genre, name='choise_genre'),
+    path('buy_dvd/<movie_pk>/', buy_dvd, name='buy_dvd'),
+    path('buy_online_watch/<movie_pk>/', buy_online_watch, name='buy_online_watch'),
+    path('buy_ticket/<movie_pk>/', buy_ticket, name='buy_ticket'),
 
 ]
 

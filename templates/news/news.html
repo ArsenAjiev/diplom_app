@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="card bg-light text-dark text-center">
-        <div class="card-body"> <h1>Новости кино movieweb.com</h1></div>
+        <div class="card-body title_movie"> <h1>Новости кино movieweb.com</h1></div>
   </div>
 
      {% for item in news %}
@@ -22,7 +22,7 @@
                                     </div>
 
                                   <div class="col-md-8">
-                                            <h4 class="card-title"> Заголовок:<span class="title"> {{ item.title }}</span>  </h4>
+                                            <h4 class="card-title"><span class="title"> {{ item.title }}</span>  </h4>
                                             <h5 class="card-title"> Дата публикации:<span class="title"> {{ item.pubDate }}</span>  </h5>
                                             <a class="btn btn-secondary" href="{{ item.link }}" role="button">читать новость на сайте movieweb.com</a>
 
