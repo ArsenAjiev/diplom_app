@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from omdb import OMDBClient
 from movie.models import Movie, CartMovie, Cart
 from movie.forms import UserRegisterForm, MovieForm
-from movie.forms import AddCommentForm
+from movie.forms import AddCommentForm, AddDataForm
 
 IMDB_API_KEY = '17cdc959'
 client = OMDBClient(apikey=IMDB_API_KEY)
@@ -191,4 +191,20 @@ def buy_online_watch(request, movie_pk):
 def buy_ticket(request, movie_pk):
     movie = Movie.objects.get(id=movie_pk)
     return render(request, 'online_shop/buy_ticket.html', {'movie': movie})
+
+def choise_date(request):
+    choise_movie = Movie.objects.all()
+    date_1 = []
+    date_2 = []
+    if request.method == 'POST':
+        form = AddDataForm(request.POST)
+        if form.is_valid():
+            date_1 = form.cleaned_data["date_1"]
+            date_2 = form.cleaned_data["date_2"]
+            choise_movie = choise_movie.filter(released__range=[date_1, date_2]).order_by('released')
+            form = AddDataForm()
+            pass
+    else:
+        form = AddDataForm()
+    return render(request, 'main/chiose_data.html', {'choise_movie': choise_movie, 'form': form, 'date_1': date_1, 'date_2': date_2 })
 

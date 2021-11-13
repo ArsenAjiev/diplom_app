@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from movie.models import Movie
+from datetime import date
+
 
 
 class UserRegisterForm(UserCreationForm):
@@ -26,3 +28,13 @@ class AddCommentForm(forms.Form):
         "class": "form-control",
         "rows": 5
     }))
+
+
+class AddDataForm(forms.Form):
+    date_1 = forms.DateTimeField(label="Дата рождения",
+                                    initial=format(date),
+                                    widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+    date_2 = forms.DateTimeField(label="Дата рождения",
+                                 initial=format(date),
+                                 widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from movie.views import index, register, profile, add_movie, delete_movie, delete_user_movie
 from movie.views import  comment, edit_comment, movie_detail, choise_genre, buy_dvd, buy_online_watch, buy_ticket
+from movie.views import choise_date
 from news.views import news_view
 
 urlpatterns = [
@@ -36,6 +37,8 @@ urlpatterns = [
     path('buy_dvd/<movie_pk>/', buy_dvd, name='buy_dvd'),
     path('buy_online_watch/<movie_pk>/', buy_online_watch, name='buy_online_watch'),
     path('buy_ticket/<movie_pk>/', buy_ticket, name='buy_ticket'),
+    path('choise_date/', choise_date, name='choise_date')
+
 
 ]
 
