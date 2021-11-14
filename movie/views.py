@@ -7,6 +7,7 @@ import requests
 #import datetime
 from django.core.paginator import Paginator
 
+
 from omdb import OMDBClient
 from movie.models import Movie, CartMovie, Cart
 from movie.forms import UserRegisterForm, MovieForm
@@ -234,3 +235,8 @@ def choise_movie_title(request):
         'count_movie_search': count_movie_search
     }
     return render(request, 'main/choise_movie_title.html', context=context)
+
+
+
+def about(request):
+    return render(request, 'main/about.html')

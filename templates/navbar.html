@@ -1,18 +1,14 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">Главная страница</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'news' %}">Новости</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'comment' %}">Коментарии</a>
-                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link active" aria-current="page" href="{% url 'comment' %}">Коментарии</a>#}
+{#                </li>#}
                 <li class="nav-item dropdown">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" data-toggle="dropdown"
@@ -31,22 +27,14 @@
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Sci-Fi' %}">Sci-Fi</a></li>
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Documentary' %}">Documentary</a></li>
 
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'choise_date' %}"> Дата премьеры</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'choise_date' %}"> Дата выхода в прокат</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Контакты</a>
-                </li>
-                                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">О сайте</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'about' %}">О сайте</a>
                 </li>
 
                 <form action="/choise_movie_title/">
@@ -54,10 +42,6 @@
                     <button class="btn btn-outline-info" type="submit"> Поиск </button>
                 </form>
 
-{#                <form action="main/choise_movie_title/" class="d-flex" method="GET" >#}
-{#                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">#}
-{#                    <button class="btn btn-outline-info" type="submit">Search</button>#}
-{#                </form>#}
             </ul>
 
         </div>
@@ -65,10 +49,9 @@
 
         <div >
 
-    <p class="row">
 
+    <ul class="col nav content-end ">
 
-    <ul class="col nav content-end">
         <li class="nav-item"><a class="nav-link"
                                 href="{% url 'register' %}">Регистрация</a></li>
         {% if user.is_authenticated %}
@@ -83,10 +66,9 @@
 
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="{% url 'profile' %}">Моя страница</a>
-{#                    <a class="dropdown-item" href="{% url 'my_comment' %}">Мои коментарии</a>#}
                     <a class="dropdown-item" href="{% url "logout" %}?next={% url 'home' %}">Выйти</a>
                     <div class="dropdown-divider"></div>
-                    {#                        <a class="dropdown-item" href="{% url "main:profile_delete" %}">Удалить</a>#}
+{#                    <a class="dropdown-item" href="{% url "profile_delete" %}">Удалить</a>#}
                 </div>
             </li>
         {% else %}
