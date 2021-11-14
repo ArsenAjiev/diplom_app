@@ -31,10 +31,10 @@ class AddCommentForm(forms.Form):
 
 
 class AddDataForm(forms.Form):
-    date_1 = forms.DateTimeField(label="Дата рождения",
+    date_1 = forms.DateTimeField(label="Первая дата периода",
                                     initial=format(date),
                                     widget=forms.widgets.DateInput(attrs={'type': 'date'}))
-    date_2 = forms.DateTimeField(label="Дата рождения",
+    date_2 = forms.DateTimeField(label="Вторая дата периода",
                                  initial=format(date),
                                  widget=forms.widgets.DateInput(attrs={'type': 'date'}))
 

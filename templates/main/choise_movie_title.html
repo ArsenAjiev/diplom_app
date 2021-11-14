@@ -1,0 +1,67 @@
+{% extends 'index.html' %}
+    {% load static %}
+{% block title %}
+
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+{% block content %}
+
+    {% if query %}
+        <div class="card bg-light text-dark text-center">
+            <div class="card-body">
+                <h1> Результат поиска по запросу: {{ query }}</h1>
+                <h1> Количество фильмов : {{ count_movie_search }}</h1>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+                    {% for movie in movie_search %}
+        <div class="container" style="margin-top:20px">
+              <div class="row">
+                   <div class="col-sm-12">
+                             <div class="card">
+                              <div class="row">
+                                  <div class="col-md-4">
+                                    <img src=" /static/img{{ movie.image.url }}" alt="" height="350" border="12">
+                                    </div>
+
+                                  <div class="col-md-8">
+                                            <h4 class="card-title"> Title:<span class="title"> {{ movie.title }}</span>  </h4>
+                                            <h5 class="card-title"> Released:<span class="title"> {{ movie.released}}</span>  </h5>
+                                            <h5 class="card-title"> Year:<span class="title"> {{ movie.year }}</span>  </h5>
+                                            <h5 class="card-title"> Genre:<span class="title"> {{ movie.genre }}</span>  </h5>
+                                            <h5 class="card-title"> Plot:<span class="title"> {{ movie.plot }}</span>  </h5>
+                                            <a href="{% url 'add_movie' movie.pk %}">
+                                            <button class="btn btn-primary"> ADD MOVIE TO PROFILE</button></a>
+                                            <a href="{{ movie.get_absolute_url }}">
+                                            <button class="btn btn-primary">Информация о фильме</button></a>
+
+                                  <div class="alert alert-light" role="alert"> </div>
+
+                                  <a href="{% url 'buy_online_watch' movie.pk %}">
+                                  <button type="button" class="btn btn-outline-success">Смотреть онлайн</button></a>
+                                  <a href="{% url 'buy_ticket' movie.pk %}">
+                                  <button type="button" class="btn btn-outline-danger">Купить билет в кинотеатр</button></a>
+                                  <a href="{% url 'buy_dvd' movie.pk %}">
+                                  <button type="button" class="btn btn-outline-info">Купить DVD/Blu-ray</button></a>
+                                               {% if user.is_superuser %}
+                                                    <a href="{% url 'delete_movie' movie.pk %}">
+                                                    <button class="delete btn btn-danger"> DELETE </button> </a>
+                                               {% endif %}
+                                  </div>
+                              </div>
+                        </div>
+                    </div>
+      </div>
+</div>
+                     {% endfor %}
+
+
+
+
+
+{% endblock %}

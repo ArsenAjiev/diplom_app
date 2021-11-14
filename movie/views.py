@@ -196,15 +196,41 @@ def choise_date(request):
     choise_movie = Movie.objects.all()
     date_1 = []
     date_2 = []
+    count_movie = Movie.objects.count()
     if request.method == 'POST':
         form = AddDataForm(request.POST)
         if form.is_valid():
             date_1 = form.cleaned_data["date_1"]
             date_2 = form.cleaned_data["date_2"]
             choise_movie = choise_movie.filter(released__range=[date_1, date_2]).order_by('released')
+            count_movie = choise_movie.count()
             form = AddDataForm()
             pass
     else:
         form = AddDataForm()
-    return render(request, 'main/chiose_data.html', {'choise_movie': choise_movie, 'form': form, 'date_1': date_1, 'date_2': date_2 })
+    paginator = Paginator(choise_movie, 10)
+    page_number = request.GET.get("page")
+    choise_movie = paginator.get_page(page_number)
+    return render(request, 'main/chiose_data.html', {
+        'choise_movie': choise_movie,
+        'form': form, 'date_1': date_1,
+        'date_2': date_2,
+        'count_movie': count_movie
+    })
 
+
+def choise_movie_title(request):
+    print(request.GET)
+    print(request)
+    query_dict = request.GET
+    query = query_dict.get("q")
+    movie_search = None
+    if query is not None:
+        movie_search = Movie.objects.filter(title__contains=query)
+    count_movie_search = movie_search.count()
+    context = {
+        'movie_search': movie_search,
+        'query': query,
+        'count_movie_search': count_movie_search
+    }
+    return render(request, 'main/choise_movie_title.html', context=context)
