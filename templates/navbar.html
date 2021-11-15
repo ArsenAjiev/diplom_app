@@ -1,20 +1,23 @@
-<nav class="navbar navbar-expand-lg navbar navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">Главная страница</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Главная</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'news' %}">Новости</a>
                 </li>
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link active" aria-current="page" href="{% url 'comment' %}">Коментарии</a>#}
-{#                </li>#}
+
                 <li class="nav-item dropdown">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" data-toggle="dropdown"
-                       href="#" role="button" aria-haspopup="true"
-                       aria-expanded="false">Категории фильмов</a>
+                    <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Категории фильмов
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Animation' %}">Animation</a></li>
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Action' %}">Action</a></li>
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Comedy' %}">Comedy</a></li>
@@ -26,55 +29,55 @@
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Romance' %}">Romance</a></li>
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Sci-Fi' %}">Sci-Fi</a></li>
                         <li><a class="dropdown-item" href="{% url 'choise_genre' 'Documentary' %}">Documentary</a></li>
-
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'choise_date' %}"> Дата выхода в прокат</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'choise_date' %}">Дата выхода в
+                        прокат</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"> Рейтинг фильмов </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'about' %}">О сайте</a>
                 </li>
-
                 <form action="/choise_movie_title/">
                     <input type="text" name="q">
-                    <button class="btn btn-outline-info" type="submit"> Поиск </button>
+                    <button class="btn btn-outline-info" type="submit"> Поиск</button>
                 </form>
-
             </ul>
 
+
+            <ul class="navbar-nav d-flex justify-content-end ">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'register' %}">Регистрация</a>
+                </li>
+
+                {% if user.is_authenticated %}
+
+                    <div class="alert alert-secondary" role="alert">
+                        Добро пожаловать :{{ user.get_username }}
+                    </div>
+
+                    <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Профиль
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'profile' %}">Моя страница</a></li>
+                    <li><a class="dropdown-item" href="{% url "logout" %}?next={% url 'home' %}">Выйти</a></li>
+                {% else %}
+                    <li><a class="dropdown-item" href="{% url "login" %}?next={% url 'profile' %}">Вход</a></li>
+                {% endif %}
+                </ul>
+                </li>
+            </ul>
         </div>
-
-
-        <div >
-
-
-    <ul class="col nav content-end ">
-
-        <li class="nav-item"><a class="nav-link"
-                                href="{% url 'register' %}">Регистрация</a></li>
-        {% if user.is_authenticated %}
-            <div class="alert alert-secondary" role="alert">
-                Добро пожаловать :{{ user.get_username }}
-            </div>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                   href="#" role="button" aria-haspopup="true"
-                   aria-expanded="false">Профиль</a>
-
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'profile' %}">Моя страница</a>
-                    <a class="dropdown-item" href="{% url "logout" %}?next={% url 'home' %}">Выйти</a>
-                    <div class="dropdown-divider"></div>
-{#                    <a class="dropdown-item" href="{% url "profile_delete" %}">Удалить</a>#}
-                </div>
-            </li>
-        {% else %}
-            <li class="nav-item"><a class="nav-link" href="{% url "login" %}?next={% url 'profile' %}">Вход</a></li>
-        {% endif %}
-    </ul>
-</div>
     </div>
 </nav>
+
+
+
+
+
