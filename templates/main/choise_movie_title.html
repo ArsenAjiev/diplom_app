@@ -35,8 +35,10 @@
                                             <h5 class="card-title"> Year:<span class="title"> {{ movie.year }}</span>  </h5>
                                             <h5 class="card-title"> Genre:<span class="title"> {{ movie.genre }}</span>  </h5>
                                             <h5 class="card-title"> Plot:<span class="title"> {{ movie.plot }}</span>  </h5>
+                                            {% if user.is_authenticated %}
                                             <a href="{% url 'add_movie' movie.pk %}">
                                             <button class="btn btn-primary"> ADD MOVIE TO PROFILE</button></a>
+                                             {% endif %}
                                             <a href="{{ movie.get_absolute_url }}">
                                             <button class="btn btn-primary">Информация о фильме</button></a>
 
