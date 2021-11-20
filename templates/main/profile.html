@@ -33,6 +33,8 @@
                                       <div class="alert alert-dark border " role="alert">
                                           <p><span class="title"> {{ movie.comment }}</span></p>
                                       </div>
+                                      <h6 class="card-title"> Дата коментария:<span class="title"> {{ movie.updated_at|date:" d.m.Y H-i"  }}</span>  </h6>
+
 
 
                                       <a href="{% url 'delete_user_movie' movie.movie_ref_id %}"> <button class="btn btn-danger"> DELETE MOVIE FROM PROFILE</button></a>

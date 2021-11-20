@@ -93,7 +93,7 @@ def delete_movie(request, movie_pk):
 
 #  профиль пользователя
 def profile(request):
-    my_movie = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk)
+    my_movie = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk).order_by('-updated_at')
     paginator = Paginator(my_movie, 10)
     page_number = request.GET.get("page")
     my_movie = paginator.get_page(page_number)
@@ -150,13 +150,13 @@ def delete_user_movie(request, movie_pk):
 #     return render(request, './main/my_comment.html', {'Comments': Comments})
 
 
-#  добавление коментария к фильму
-def comment(request):
-    All_comment = CartMovie.objects.all().order_by("-updated_at")
-    paginator = Paginator(All_comment, 10)
-    page_number = request.GET.get("page")
-    All_comment = paginator.get_page(page_number)
-    return render(request, 'main/comment.html', {'All_comment': All_comment})
+
+# def comment(request):
+#     All_comment = CartMovie.objects.all().order_by("-updated_at")
+#     paginator = Paginator(All_comment, 10)
+#     page_number = request.GET.get("page")
+#     All_comment = paginator.get_page(page_number)
+#     return render(request, 'main/comment.html', {'All_comment': All_comment})
 
 
 #  редактирование коментария
@@ -169,7 +169,7 @@ def edit_comment(request, movie_pk):
         if form.is_valid():
             CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(
                 comment=form.cleaned_data["comment"], updated_at=datetime.today())
-            return redirect('comment')
+            return redirect('profile')
             pass
     else:
         form = AddCommentForm()
