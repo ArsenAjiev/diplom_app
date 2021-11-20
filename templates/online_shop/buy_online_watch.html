@@ -10,7 +10,7 @@
 
     <div class="card bg-success text-center">
         <div class="card-body"><h1> Сервис просмотра фильмов онлайн </h1>
-         <h3 class="display-4">Здравствуйте!</h3>
+         <h4 class="display-4">Здравствуйте!</h4>
   <p class="lead">На этой странице вы можете оформить подписку для просмотра фильма онлайн </p>
           <p class="title_movie">{{ movie.title }}</p>
 
@@ -30,7 +30,7 @@
                             <h4 class="card-title"> Название:<span class="title"> {{ movie.title }}</span></h4>
                             <h5 class="card-title"> Год выпуска:<span class="title"> {{ movie.year }}</span></h5>
                             <h5 class="card-title"> Жанр:<span class="title"> {{ movie.genre }}</span></h5>
-                            <a href="#">
+                            <a href="{% url 'buy_finish' %}">
                                 <button class="btn btn btn-success">Офрмить подписку</button>
                             </a>
                         </div>

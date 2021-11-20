@@ -4,9 +4,8 @@ from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
 import requests
-#import datetime
+# import datetime
 from django.core.paginator import Paginator
-
 
 from omdb import OMDBClient
 from movie.models import Movie, CartMovie, Cart
@@ -18,30 +17,31 @@ client = OMDBClient(apikey=IMDB_API_KEY)
 movie_all = Movie.objects.all()
 
 
+#  главная страница приложения.
 def index(request):
     form = MovieForm(request.POST)
     err_msg = ''
     message = ''
     message_class = ''
-
+    #  форма для добавления фильмов в базу данных
     if request.method == "POST":
         form = MovieForm(request.POST)
         if form.is_valid():
-
+            #  присваиваем переменным полученные данные из формы.
             title_api = form.cleaned_data['title']
             year_api = form.cleaned_data['year']
-
+            #  подставляем позиционные аргументы в запрос.
             json_data = client.get(title=title_api, year=year_api, tomatoes=True, fullplot=True)
             if not json_data:
                 return redirect('home')
-
+            #  сохраняем изображения в папке "static/img" - постеры для фильмов
             url = json_data["poster"]
             name = json_data["title"]
             response = requests.get(url, stream=True)
             file_name = f"{name}.jpeg"
             with open(settings.MEDIA_ROOT / file_name, "wb") as out_file:
                 out_file.write(response.content)
-
+            #  запись полученных и очищенных данных в модель Movie
             new_imdb = json_data['imdb_id']
             existing_imdb_id_count = Movie.objects.filter(imdb_id=new_imdb).count()
             if existing_imdb_id_count == 0:
@@ -63,7 +63,7 @@ def index(request):
             else:
                 err_msg = 'Movie already exist in the database!'
                 form = MovieForm()
-
+        #  вывод сообщений в зависимости от условий
         if err_msg:
             message = err_msg
             message_class = 'alert alert-danger'
@@ -72,6 +72,7 @@ def index(request):
             message = 'Movie added successfully'
             message_class = 'alert alert-success'
 
+    #  отсортированный список фильмов
     movies = Movie.objects.order_by("-released")
     num_movies = Movie.objects.all().count()
 
@@ -80,14 +81,17 @@ def index(request):
     movies = paginator.get_page(page_number)
 
     return render(request, "index.html",
-                  {"movies": movies, "form": form, "message": message, 'message_class': message_class, "num_movies": num_movies})
+                  {"movies": movies, "form": form, "message": message, 'message_class': message_class,
+                   "num_movies": num_movies})
 
 
+# функция удаления фильма из базы данных
 def delete_movie(request, movie_pk):
     Movie.objects.get(pk=movie_pk).delete()
     return redirect('home')
 
 
+#  профиль пользователя
 def profile(request):
     my_movie = CartMovie.objects.all().filter(cart_ref__customer_id=request.user.pk)
     paginator = Paginator(my_movie, 10)
@@ -96,6 +100,7 @@ def profile(request):
     return render(request, './main/profile.html', {'my_movie': my_movie})
 
 
+#  регистрация нового пользователя
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -112,6 +117,7 @@ def register(request):
     return render(request, 'registration/register_user.html', {"form": form})
 
 
+#  добавление фильма в профиль пользователя
 def add_movie(request, movie_pk):
     #  cоздал экземпляр 'active_user' класса Cart с фктивным пользователем
     #  обратился к id экземпляра  Cart при добавлении в БД
@@ -123,12 +129,13 @@ def add_movie(request, movie_pk):
         print(request.user.pk)
         CartMovie.objects.create(cart_ref_id=active_user.pk, movie_ref_id=movie_pk)
         messages.success(request, "фильм успешно добавлен в ваш профиль")
-        return redirect('home')
+        return redirect('profile')
     else:
         messages.error(request, 'Фильм уже в вашем профиле.')
     return redirect('home')
 
 
+#  удаление фильма из профиля пользователя
 def delete_user_movie(request, movie_pk):
     active_user = Cart.objects.get(customer_id=request.user.pk)
     CartMovie.objects.get(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).delete()
@@ -143,6 +150,7 @@ def delete_user_movie(request, movie_pk):
 #     return render(request, './main/my_comment.html', {'Comments': Comments})
 
 
+#  добавление коментария к фильму
 def comment(request):
     All_comment = CartMovie.objects.all().order_by("-updated_at")
     paginator = Paginator(All_comment, 10)
@@ -151,14 +159,16 @@ def comment(request):
     return render(request, 'main/comment.html', {'All_comment': All_comment})
 
 
+#  редактирование коментария
 def edit_comment(request, movie_pk):
-     #  cоздал экземпляр 'active_user' класса Cart с фктивным пользователем
-     #  обратился к id экземпляра  Cart при добавлении в БД
+    #  cоздал экземпляр 'active_user' класса Cart с активным пользователем
+    #  обратился к id экземпляра  Cart при добавлении в БД
     active_user = Cart.objects.get(customer_id=request.user.pk)
     if request.method == 'POST':
         form = AddCommentForm(request.POST)
         if form.is_valid():
-            CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(comment=form.cleaned_data["comment"], updated_at=datetime.today())
+            CartMovie.objects.filter(cart_ref_id=active_user.pk, movie_ref_id=movie_pk).update(
+                comment=form.cleaned_data["comment"], updated_at=datetime.today())
             return redirect('comment')
             pass
     else:
@@ -167,11 +177,13 @@ def edit_comment(request, movie_pk):
     return render(request, 'main/edit_comment.html', {'Comments': Comments, 'form': form})
 
 
+#  полная информация о фильме
 def movie_detail(request, movie_pk):
     movie = Movie.objects.get(id=movie_pk)
     return render(request, 'main/movie_detail.html', {'movie': movie})
 
 
+#  фильтр фильмов по жанру
 def choise_genre(request, name):
     movies = Movie.objects.filter(genre__contains=name)
     num_movies = movies.count()
@@ -181,20 +193,32 @@ def choise_genre(request, name):
     return render(request, 'main/genre_movie.html', {'movies': movies, 'name': name, 'num_movies': num_movies})
 
 
+# страница сервиса покупки DVD, Blue-Ray
 def buy_dvd(request, movie_pk):
     movie = Movie.objects.get(id=movie_pk)
     return render(request, 'online_shop/buy_dvd.html', {'movie': movie})
 
+
+# страница сервиса покупки онлайн просмотра фильма
 def buy_online_watch(request, movie_pk):
     movie = Movie.objects.get(id=movie_pk)
     return render(request, 'online_shop/buy_online_watch.html', {'movie': movie})
 
+
+# страница сервиса покупки билета в кинотеатр
 def buy_ticket(request, movie_pk):
     movie = Movie.objects.get(id=movie_pk)
     return render(request, 'online_shop/buy_ticket.html', {'movie': movie})
 
+
+# заказ оформлен
+def buy_finish(request):
+    return render(request, 'online_shop/buy_finish.html')
+
+
+# фильтр фильмов по дате выхода в прокат
 def choise_date(request):
-    choise_movie = Movie.objects.all()
+    choise_movie = Movie.objects.all().order_by('released')
     date_1 = []
     date_2 = []
     count_movie = Movie.objects.count()
@@ -220,9 +244,10 @@ def choise_date(request):
     })
 
 
+# поиск фильма по названию ("title")
 def choise_movie_title(request):
-    print(request.GET)
-    print(request)
+    # print(request.GET)
+    # print(request)
     query_dict = request.GET
     query = query_dict.get("q")
     movie_search = None
@@ -237,6 +262,6 @@ def choise_movie_title(request):
     return render(request, 'main/choise_movie_title.html', context=context)
 
 
-
+# информация о сайте
 def about(request):
     return render(request, 'main/about.html')

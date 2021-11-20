@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+    {% load static %}
+{% block title %}
+
+Профиль :: {{block.super}}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="card bg-info text-center">
+        <div class="card-body">
+            <p class="lead"> <h3>Ваш заказ успешно оформлен</h3>  </p>
+        </div>
+
+    </div>
+ <br>
+    <div class="container text-center">
+            <a href="{% url 'home' %}">
+            <button class="btn btn btn-info">Вернуться на главную страница</button>
+        </a>
+    </div>
+
+{% endblock %}

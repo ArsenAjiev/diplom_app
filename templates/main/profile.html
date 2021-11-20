@@ -27,9 +27,15 @@
                                             <h6 class="card-title"> Жанр:<span class="title"> {{ movie.movie_ref.genre }}</span>  </h6>
                                             <h6 class="card-title"> Дата выхода на экран:<span class="title"> {{ movie.movie_ref.released }}</span>  </h6>
 
-                                           <h2 class="card-title"> Мой коментарий  фильма :</h2>  <p><span class="title"> {{ movie.comment }}</span> </p>
+                                      <br>
+                                      <h4 class="card-title"> Мой коментарий к фильму :</h4>
 
-                                  <a href="{% url 'delete_user_movie' movie.movie_ref_id %}"> <button class="btn btn-danger"> DELETE MOVIE FROM PROFILE</button></a>
+                                      <div class="alert alert-dark border " role="alert">
+                                          <p><span class="title"> {{ movie.comment }}</span></p>
+                                      </div>
+
+
+                                      <a href="{% url 'delete_user_movie' movie.movie_ref_id %}"> <button class="btn btn-danger"> DELETE MOVIE FROM PROFILE</button></a>
                                   <a class="btn btn-primary" href="{% url 'edit_comment' movie.movie_ref_id %}" role="button">Add or Edit comment</a>
 
                                       <div class="alert alert-light" role="alert"></div>

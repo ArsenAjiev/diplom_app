@@ -1,117 +1,40 @@
 {% extends 'index.html' %}
-    {% load static %}
+{% load static %}
 {% block title %}
 
-Профиль :: {{block.super}}
+    Профиль :: {{ block.super }}
 {% endblock %}
 
 
 {% block content %}
 
-      <div class="container">
+    <div class="container">
 
-<div class="alert alert-primary" role="alert">
-  <h4 class="alert-heading">Цель проекта</h4>
-  <p>Практический опыт работы с внешными данными (API, RSS) </p>
-  <p>Получение данных, обработка, помещение в базу данных и их представление </p>
-  <hr>
-      <h4 class="alert-heading">Источники информации</h4>
-  <p>Информация о фильмах получена по API сайта www.omdbapi.com </p>
-  <p>овости получены по RSS сайта movieweb.com.
-    Используя онлайн сервис rss2json.com преобразованы  из RSS в JSON </p>
+        <div class="alert alert-dark" role="alert">
+            <H2><p>База данных о кино, пользователи которой всегда в курсе ключевых событий индустрии.</p>
+                Приложение позволяет читать новости и получать информацию о будущих или вышедших кинокартинах.
+                Приложение помогает вести учёт просмотренных фильмов.
+                В пользовательском профиле отображаются списки,
+                в которые можно добавлять, просмотренные или ожидаемые фильмы,
+                а также добавлять свои коментарии к фильмам.
+            </H2>
+            <hr>
+            <div class="alert alert-dark text-center" role="alert">
+                <h4 class="alert-heading" align="center">Источники информации:</h4>
+            </div>
+            <br>
 
-</div>
+            <h2>Информация о фильмах получена по API сайта www.omdbapi.com. </h2>
+            <h2>Новости получены по RSS сайта movieweb.com.
+                Используя онлайн сервис rss2json.com преобразованы из RSS в JSON. </h2>
 
-<div class="alert alert-primary text-center" role="alert">
-    <h4>Приложение не является комерческим, создано в образовательных целях.</h4>
-</div>
+        </div>
 
-</div>
+        <div class="alert alert-dark text-center" role="alert">
+            <h4>Приложение не является комерческим, создано в образовательных целях.</h4>
+        </div>
 
+    </div>
 
-
-</div>
-
-      <!-- Table -->
-{#      <table class="table">#}
-{#        <thead>#}
-{#          <tr>#}
-{#            <th>#</th>#}
-{#            <th>Имя</th>#}
-{#            <th>Фамилия</th>#}
-{#            <th>Имя пользователя</th>#}
-{#          </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#          <tr>#}
-{#            <td>1</td>#}
-{#            <td>Mark</td>#}
-{#            <td>Otto <br> fff fff fffffff fffff fffff ffffff </td>#}
-{#            <td>@mdo</td>#}
-{#          </tr>#}
-{#          <tr>#}
-{#            <td>2</td>#}
-{#            <td>Jacob</td>#}
-{#            <td>Thornton</td>#}
-{#            <td>@fat</td>#}
-{#          </tr>#}
-{#          <tr>#}
-{#            <td>3</td>#}
-{#            <td>Larry</td>#}
-{#            <td>the Bird</td>#}
-{#            <td>@twitter</td>#}
-{#          </tr>#}
-{#        </tbody>#}
-{#      </table>#}
-{#    </div>#}
-{#  </div>#}
-
-
-{#        <div class="card bg-light text-dark text-center">#}
-{#           <div class="card-body"> <h1> Информация о сайте</h1></div>#}
-{#        </div>#}
-{##}
-{##}
-{#    <div class="container">#}
-{##}
-{#      <div class="jumbotron">#}
-{#        <h3 class="text-muted">Каталог фильмов</h3>#}
-{#        <h1>NEW MOVIE</h1>#}
-{#        <p class="lead about"> Приложение представляет собой базу данных фильмов которые вышли или будут выходить  в прокат в 2021-2022 годах.#}
-{#        </p>#}
-{#        <p class="lead"> Приобретение навыков при работе с внешними данными полученными по API, RSS#}
-{#            (импорт, очистка, загрузка в модель и представление).#}
-{#        </p>#}
-{##}
-{##}
-{##}
-{##}
-{##}
-{#      </div>#}
-{##}
-{#      <div class="row marketing">#}
-{##}
-{#          <div class="col-lg-12">#}
-{#              <h4>Приложение создано на языке програмирования Python. Использованы следующие библиотеки и языки разметки </h4>#}
-{#              <li>Django</li>#}
-{#              <li> Bootstrap</li>#}
-{#              <li>HTML</li>#}
-{#              <li>CSS</li>#}
-{##}
-{#              <h4>Источники данных </h4>#}
-{#              <li>Информация о фильмах получена по API сайта www.omdbapi.com</li>#}
-{#              <li> Новости получены по RSS сайта movieweb.com</li>#}
-{##}
-{##}
-{#              <h4>в приложении реализован следующий функционал </h4>#}
-{#              <li>Поиск фильмов по полю "genre"</li>#}
-{#              <li> Поиск фильма по названию в поле "title" </li>#}
-{#              <li>Поиск фильмов по полю "released" за указанный пользователем период времени </li>#}
-{##}
-{#          </div>#}
-{##}
-{#      </div>#}
-{##}
-{#    </div>#}
 
 {% endblock %}

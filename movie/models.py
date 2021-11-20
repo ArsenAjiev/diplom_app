@@ -3,6 +3,7 @@ from django.conf import settings
 from django.urls import reverse
 
 
+#  модель для добавления фильмов в базу данных
 class Movie(models.Model):
     title = models.CharField(max_length=255, verbose_name='название')
     year = models.IntegerField(verbose_name='год производства')
@@ -26,7 +27,8 @@ class Movie(models.Model):
         return reverse('movie_detail', kwargs={'movie_pk': self.pk})
 
 
-
+#  модель которая создает профиль для пользователя.
+#  один пользователь может иметь только один профиль (OneToOneField)
 class Cart(models.Model):
     customer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='prof', verbose_name='пользователь')
     comment = models.CharField(max_length=255, blank=True, null=True, verbose_name='примечание')
@@ -35,6 +37,7 @@ class Cart(models.Model):
         return self.customer.username
 
 
+#  модель которая позволяет добавить фильм в профиль пользователю
 class CartMovie(models.Model):
     cart_ref = models.ForeignKey(Cart, related_name='cart', on_delete=models.CASCADE, verbose_name='ссылка на Cart')
     movie_ref = models.ForeignKey(Movie, related_name='movie', on_delete=models.CASCADE, verbose_name='ссылка на Movie')
